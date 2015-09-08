@@ -1,0 +1,36 @@
+C:\>python.exe C:\Python34\Tools\Scripts\2to3.py lociss.py
+RefactoringTool: Skipping implicit fixer: buffer
+RefactoringTool: Skipping implicit fixer: idioms
+RefactoringTool: Skipping implicit fixer: set_literal
+RefactoringTool: Skipping implicit fixer: ws_comma
+RefactoringTool: Refactored C:\Users\LeeL3\github\space-station\lociss.py
+--- lociss.py       (original)
++++ lociss.py       (refactored)
+@@ -1,14 +1,14 @@
+ import json
+ import time
+-import urllib2
++import urllib.request, urllib.error, urllib.parse
+
+-req = urllib2.Request("http://api.open-notify.org/iss-now.json")
++req = urllib.request.Request("http://api.open-notify.org/iss-now.json")
+
+ def locateiss():
+-    response = urllib2.urlopen(req)
++    response = urllib.request.urlopen(req)
+     obj = json.loads(response.read())
+-    print "Time : %s | Lat./Long. : %.16f,%.16f" % (obj['timestamp'], obj['iss_
+position']['latitude'], obj['iss_position']['longitude'])
+-    print "Time :", obj['timestamp'], "|", "Lat./Long. :", obj['iss_position'][
+'latitude'], ",", obj['iss_position']['longitude']
++    print("Time : %s | Lat./Long. : %.16f,%.16f" % (obj['timestamp'], obj['iss_
+position']['latitude'], obj['iss_position']['longitude']))
++    print("Time :", obj['timestamp'], "|", "Lat./Long. :", obj['iss_position'][
+'latitude'], ",", obj['iss_position']['longitude'])
+
+ while True:
+     locateiss()
+RefactoringTool: Files that need to be modified:
+RefactoringTool: lociss.py
+
+C:\Python34>
