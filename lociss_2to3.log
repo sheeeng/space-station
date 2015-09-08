@@ -1,4 +1,4 @@
-C:\>python.exe C:\Python34\Tools\Scripts\2to3.py lociss.py
+C:\Python34>python.exe C:\Python34\Tools\Scripts\2to3.py lociss.py
 RefactoringTool: Skipping implicit fixer: buffer
 RefactoringTool: Skipping implicit fixer: idioms
 RefactoringTool: Skipping implicit fixer: set_literal
