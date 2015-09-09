@@ -30,9 +30,9 @@ func main() {
 	}
 
 	if err == nil {
-		fmt.Printf("%s", body)
+		fmt.Printf("%s\n\n", body)
 	} else {
-		log.Fatalf("Error: %s", err)
+		log.Fatalf("Error: %s\n\n", err)
 	}
 }
 
