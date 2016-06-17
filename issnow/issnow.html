@@ -1,0 +1,79 @@
+<!doctype html>
+<!--Modified from https://github.com/open-notify/open-notify.github.com project.-->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+</head>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+<script>
+    function getISS() {
+        $.getJSON('http://api.open-notify.org/iss-now.json?callback=?', function(data) {
+            var lat = data['iss_position']['latitude'];
+            var lon = data['iss_position']['longitude'];
+            $('#isslat').html(Math.round(lat * 1000) / 1000.0);
+            $('#isslon').html(Math.round(lon * 1000) / 1000.0);
+        });
+        setTimeout(getISS, 5000);
+    }
+    getISS();
+</script>
+<script>
+    // Hardcoded to Oslo location.
+    const latitude = 59.911491;
+    const longitude = 10.757933;
+    // console.log(latitude);
+    // console.log(longitude);
+    //$.getJSON('http://api.open-notify.org/iss-pass.json?lat=59.911491&lon=10.757933&alt=20&n=5&callback=?', function(data) {
+    $.getJSON('http://api.open-notify.org/iss-pass.json?lat=' + latitude + '&lon=' + latitude + '&alt=20&n=5&callback=?',
+        function(data) {
+            data['response'].forEach(function(d) {
+                var date = new Date(d['risetime'] * 1000);
+                $('#isspass').append('<li>' + date.toString() + '</li>');
+            });
+            $('#curlat').html(latitude.toString());
+            $('#curlon').html(longitude.toString());
+        });
+</script>
+<script>
+    // Copied from https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation page.
+    function success(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+
+        $.getJSON('http://api.open-notify.org/iss-pass.json?lat=' + latitude + '&lon=' + latitude + '&alt=20&n=5&callback=?',
+            function(data) {
+                //$.getJSON('http://api.open-notify.org/iss-pass.json?lat=59.911491&lon=10.757933&alt=20&n=5&callback=?', function(data) {
+                data['response'].forEach(function(d) {
+                    var date = new Date(d['risetime'] * 1000);
+                    $('#isspass').append('<li>' + date.toString() + '</li>');
+                });
+                // $('#curlat').html(59.911491);
+                // $('#curlong').html(10.757933);
+            });
+    };
+
+    function error() {
+        $('#isspass').append('<span>Unable to retrieve your location.</span>');
+    };
+
+    //navigator.geolocation.getCurrentPosition(success, error);
+</script>
+<script>
+    $.getJSON('http://api.open-notify.org/astros.json?callback=?', function(data) {
+        var number = data['number'];
+        $('#spacepeeps').html(number);
+        data['people'].forEach(function(d) {
+            $('#astronames').append('<li>' + d['name'] + '</li>');
+        });
+    });
+</script>
+
+<body>
+    <p>The ISS is currently over <span id="isslat">?</span>&deg; N, <span id="isslon">?</span>&deg; E.</p>
+    <p>Your current location is <span id="curlat" style="font-weight:bold;">?</span>, <span id="curlon" style="font-weight:bold;">?</span>.</p>
+    <p>Future passings:<span id="isspass"></p>
+    <p>There are currently <span id="spacepeeps" style="font-weight:bold;">?</span> humans in space.</p>
+    <p><span id="astronames" style="font-weight:bold;"></p>
+</body>
+</html>
